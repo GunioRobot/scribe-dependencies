@@ -1,0 +1,30 @@
+From 424cd9d505716efdba61cc4e91471a2718a910ad Mon Sep 17 00:00:00 2001
+From: Aaron Kimball <aaron@cloudera.com>
+Date: Tue, 15 Sep 2009 15:13:23 -0700
+Subject: [PATCH] MAPREDUCE-923: Sqoop's ORM uses URLDecoder on a file, which replaces plus signs in a jar file name with spaces
+
+---
+ .../hadoop/sqoop/orm/CompilationManager.java       |    7 +++++++
+ 1 files changed, 7 insertions(+), 0 deletions(-)
+
+diff --git a/src/contrib/sqoop/src/java/org/apache/hadoop/sqoop/orm/CompilationManager.java b/src/contrib/sqoop/src/java/org/apache/hadoop/sqoop/orm/CompilationManager.java
+index 90a1572..c8fd152 100644
+--- a/src/contrib/sqoop/src/java/org/apache/hadoop/sqoop/orm/CompilationManager.java
++++ b/src/contrib/sqoop/src/java/org/apache/hadoop/sqoop/orm/CompilationManager.java
+@@ -339,6 +339,13 @@ public class CompilationManager {
+           if (toReturn.startsWith("file:")) {
+             toReturn = toReturn.substring("file:".length());
+           }
++          // URLDecoder is a misnamed class, since it actually decodes
++          // x-www-form-urlencoded MIME type rather than actual
++          // URL encoding (which the file path has). Therefore it would
++          // decode +s to ' 's which is incorrect (spaces are actually
++          // either unencoded or encoded as "%20"). Replace +s first, so
++          // that they are kept sacred during the decoding process.
++          toReturn = toReturn.replaceAll("\\+", "%2B");
+           toReturn = URLDecoder.decode(toReturn, "UTF-8");
+           return toReturn.replaceAll("!.*$", "");
+         }
+-- 
+1.6.0.4
+

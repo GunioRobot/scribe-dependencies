@@ -1,0 +1,73 @@
+From 91b16081c4e375c1f897930036553a42c2f2e949 Mon Sep 17 00:00:00 2001
+From: Chad Metcalf <chad@cloudera.com>
+Date: Tue, 22 Sep 2009 11:23:43 -0700
+Subject: [PATCH] Revert "Package sqoop docs."
+
+This reverts commit 34a58c0e9727dd7af8e7f144709a1b234b63f142.
+---
+ cloudera/install_hadoop.sh  |   12 +++---------
+ src/contrib/sqoop/build.xml |   18 ------------------
+ 2 files changed, 3 insertions(+), 27 deletions(-)
+
+diff --git a/cloudera/install_hadoop.sh b/cloudera/install_hadoop.sh
+index 687b606..e8981cc 100755
+--- a/cloudera/install_hadoop.sh
++++ b/cloudera/install_hadoop.sh
+@@ -151,11 +151,8 @@ mkdir -p $DOC_DIR
+ cp -r ${BUILD_DIR}/../../docs/* $DOC_DIR
+ 
+ mkdir -p $DOC_DIR/sqoop
+-# TODO(csm): This .. is a hack because for some odd reason the sqoop docs
+-# get built in build/contrib vs build/hadoop-.../contrib. We'll need to
+-# fix this
+-cp ${BUILD_DIR}/../contrib/sqoop/doc/SqoopUserGuide.html $DOC_DIR/sqoop
+-               
++cp ${HADOOP_SRC_DIR}/contrib/sqoop/doc/SqoopUserGuide.html $DOC_DIR/sqoop
++
+ # Install source
+ mkdir -p $SRC_DIR
+ cp -a ${HADOOP_SRC_DIR}/* $SRC_DIR/
+@@ -183,10 +180,7 @@ done
+ # man pages
+ mkdir -p $MAN_DIR/man1
+ cp ${CLOUDERA_SOURCE_DIR}/hadoop-$APACHE_BRANCH.1.gz $MAN_DIR/man1/
+-# TODO(csm): This .. is a hack because for some odd reason the sqoop docs
+-# get built in build/contrib vs build/hadoop-.../contrib. We'll need to
+-# fix this
+-cp ${BUILD_DIR}/../contrib/sqoop/doc/sqoop.1.gz $MAN_DIR/man1/sqoop-$APACHE_BRANCH.1.gz
++gzip -c ${HADOOP_SRC_DIR}/contrib/sqoop/doc/sqoop.1 > $MAN_DIR/man1/sqoop-$APACHE_BRANCH.1.gz
+ 
+ ############################################################
+ # ARCH DEPENDENT STUFF
+diff --git a/src/contrib/sqoop/build.xml b/src/contrib/sqoop/build.xml
+index fd7b3aa..b3a736d 100644
+--- a/src/contrib/sqoop/build.xml
++++ b/src/contrib/sqoop/build.xml
+@@ -29,24 +29,6 @@ to call at top-level: ant deploy-contrib compile-core-test
+   <property name="mrunit.class.dir" value="${build.dir}/../mrunit/classes" />
+ 
+   <!-- ================================================================== -->
+-  <!-- Compile                                                            -->
+-  <!-- Override with our own version so we can enforce build dependencies -->
+-  <!-- on doc                                                             -->
+-  <!-- ================================================================== -->
+-  <target name="compile" depends="init, ivy-retrieve-common, doc" unless="skip.contrib">
+-    <echo message="contrib: ${name}"/>
+-    <javac
+-     encoding="${build.encoding}"
+-     srcdir="${src.dir}"
+-     includes="**/*.java"
+-     destdir="${build.classes}"
+-     debug="${javac.debug}"
+-     deprecation="${javac.deprecation}">
+-     <classpath refid="contrib-classpath"/>
+-    </javac>
+-  </target>
+-
+-  <!-- ================================================================== -->
+   <!-- Compile test code                                                  -->
+   <!-- Override with our own version so we can enforce build dependencies -->
+   <!-- on compile-core-test for MiniMRCluster, and MRUnit.                -->
+-- 
+1.6.0.4
+

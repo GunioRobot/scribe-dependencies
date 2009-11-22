@@ -1,0 +1,83 @@
+From 38c32cc6eeacc4bb2137b0b07b3f5ce2747e6981 Mon Sep 17 00:00:00 2001
+From: Todd Lipcon <todd@cloudera.com>
+Date: Wed, 28 Oct 2009 11:23:59 -0700
+Subject: [PATCH] MAPREDUCE-768. Add hadoop jobtracker -dumpConfiguration command
+
+This is modified from the original patch in that it does not dump QueueManager configuration.
+This is because we have not backported HADOOP-5396
+---
+ .../org/apache/hadoop/mapred/JobTracker.java       |   31 +++++++++++++++----
+ .../org/apache/hadoop/mapred/QueueManager.java     |    2 +
+ 2 files changed, 26 insertions(+), 7 deletions(-)
+
+diff --git a/src/mapred/org/apache/hadoop/mapred/JobTracker.java b/src/mapred/org/apache/hadoop/mapred/JobTracker.java
+index 1889918..f8063a3 100644
+--- a/src/mapred/org/apache/hadoop/mapred/JobTracker.java
++++ b/src/mapred/org/apache/hadoop/mapred/JobTracker.java
+@@ -19,6 +19,8 @@ package org.apache.hadoop.mapred;
+ 
+ 
+ import java.io.IOException;
++import java.io.PrintWriter;
++import java.io.Writer;
+ import java.net.BindException;
+ import java.net.InetSocketAddress;
+ import java.net.UnknownHostException;
+@@ -3724,19 +3726,34 @@ public class JobTracker implements MRConstants, InterTrackerProtocol,
+   public static void main(String argv[]
+                           ) throws IOException, InterruptedException {
+     StringUtils.startupShutdownMessage(JobTracker.class, argv, LOG);
+-    if (argv.length != 0) {
+-      System.out.println("usage: JobTracker");
+-      System.exit(-1);
+-    }
+-      
++    
+     try {
+-      JobTracker tracker = startTracker(new JobConf());
+-      tracker.offerService();
++      if(argv.length == 0) {
++        JobTracker tracker = startTracker(new JobConf());
++        tracker.offerService();
++      }
++      else {
++        if ("-dumpConfiguration".equals(argv[0]) && argv.length == 1) {
++          dumpConfiguration(new PrintWriter(System.out));
++        }
++        else {
++          System.out.println("usage: JobTracker [-dumpConfiguration]");
++          System.exit(-1);
++        }
++      }
+     } catch (Throwable e) {
+       LOG.fatal(StringUtils.stringifyException(e));
+       System.exit(-1);
+     }
+   }
++  /**
++   * Dumps the configuration properties in Json format
++   * @param writer {@link}Writer object to which the output is written
++   * @throws IOException
++   */
++  private static void dumpConfiguration(Writer writer) throws IOException {
++    Configuration.dumpConfiguration(new JobConf(), writer);
++  }
+ 
+   @Override
+   public JobQueueInfo[] getQueues() throws IOException {
+diff --git a/src/mapred/org/apache/hadoop/mapred/QueueManager.java b/src/mapred/org/apache/hadoop/mapred/QueueManager.java
+index a125838..c8a70bd 100644
+--- a/src/mapred/org/apache/hadoop/mapred/QueueManager.java
++++ b/src/mapred/org/apache/hadoop/mapred/QueueManager.java
+@@ -18,6 +18,8 @@
+ 
+ package org.apache.hadoop.mapred;
+ 
++import java.io.PrintWriter;
++import java.io.Writer;
+ import java.util.ArrayList;
+ import java.util.HashMap;
+ import java.util.Set;
+-- 
+1.6.0.4
+

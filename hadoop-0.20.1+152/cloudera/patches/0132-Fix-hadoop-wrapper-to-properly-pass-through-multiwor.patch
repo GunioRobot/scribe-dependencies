@@ -1,0 +1,25 @@
+From 35a5d7541e0bb46cdb35818a25f538ee4d496070 Mon Sep 17 00:00:00 2001
+From: Todd Lipcon <todd@cloudera.com>
+Date: Sun, 4 Oct 2009 09:54:59 -0700
+Subject: [PATCH] Fix hadoop wrapper to properly pass through multiword quoted arguments
+
+---
+ cloudera/install_hadoop.sh |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/cloudera/install_hadoop.sh b/cloudera/install_hadoop.sh
+index 13a952b..003d709 100755
+--- a/cloudera/install_hadoop.sh
++++ b/cloudera/install_hadoop.sh
+@@ -127,7 +127,7 @@ for bin_wrapper in hadoop sqoop ; do
+ #!/bin/sh
+ 
+ export HADOOP_HOME=$INSTALLED_LIB_DIR
+-exec $INSTALLED_LIB_DIR/bin/$bin_wrapper \$*
++exec $INSTALLED_LIB_DIR/bin/$bin_wrapper "\$@"
+ EOF
+   chmod 755 $wrapper
+ done
+-- 
+1.6.0.4
+

@@ -1,0 +1,11 @@
+Included in this package are all the dependencies for scribe, as well as a package to build them.
+
+These were fetched 11/21/2009 from the following sources:
+
+http://monkey.org/~provos/libevent-1.4.11-stable.tar.gz
+http://downloads.sourceforge.net/project/boost/boost/1.41.0/boost_1_41_0.tar.gz
+http://www.oberhumer.com/opensource/lzo/download/lzo-2.03.tar.gz
+http://archive.cloudera.com/cdh/testing/hadoop-0.20.1+152.tar.gz
+http://archive.cloudera.com/cdh/testing/hadoop-0.20.1+152.CHANGES.txt
+svn co http://svn.apache.org/repos/asf/incubator/thrift/trunk thrift
+

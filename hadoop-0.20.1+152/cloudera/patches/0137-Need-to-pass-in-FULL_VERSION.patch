@@ -1,0 +1,25 @@
+From f8e6f5c017e79223934e3333ad96d84dbbc0fcbb Mon Sep 17 00:00:00 2001
+From: Chad Metcalf <chad@cloudera.com>
+Date: Fri, 16 Oct 2009 14:07:22 -0700
+Subject: [PATCH] Need to pass in FULL_VERSION
+
+---
+ cloudera/do-release-build |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
+
+diff --git a/cloudera/do-release-build b/cloudera/do-release-build
+index a94572d..9dbf411 100755
+--- a/cloudera/do-release-build
++++ b/cloudera/do-release-build
+@@ -5,6 +5,8 @@
+ 
+ set -e
+ 
++FULL_VERSION=$1
++
+ if [ $(uname -m) != "x86_64" ]; then
+   echo Release build should be done on a 64-bit box to generate 1>&2
+   echo both 64 and 32 bit native libraries. 1>&2
+-- 
+1.6.0.4
+

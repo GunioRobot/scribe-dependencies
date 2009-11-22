@@ -1,0 +1,25 @@
+From cb3092588975396fa5628608f0671a42abd380c0 Mon Sep 17 00:00:00 2001
+From: Chad Metcalf <chad@cloudera.com>
+Date: Fri, 16 Oct 2009 14:07:45 -0700
+Subject: [PATCH] Bump jdiff stable to 0.20.1
+
+---
+ cloudera/do-release-build |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/cloudera/do-release-build b/cloudera/do-release-build
+index 9dbf411..217c257 100755
+--- a/cloudera/do-release-build
++++ b/cloudera/do-release-build
+@@ -79,7 +79,7 @@ JAVA_HOME=$JAVA32_HOME \
+ 
+ if [ -z "$SKIP_JDIFF" ]; then
+ ant \
+-  -Djdiff.stable=0.20.0 \
++  -Djdiff.stable=0.20.1 \
+   -Djdiff.build.dir=build/docs/jdiff-cloudera \
+   -propertyfile cloudera/build.properties api-report
+ fi
+-- 
+1.6.0.4
+

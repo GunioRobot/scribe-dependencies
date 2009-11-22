@@ -1,0 +1,25 @@
+From c955b2beda0ab1135c41bf26db302a94bd583fe9 Mon Sep 17 00:00:00 2001
+From: Todd Lipcon <todd@cloudera.com>
+Date: Thu, 24 Sep 2009 13:55:35 -0700
+Subject: [PATCH] Only rerun libtoolize if version 2.2 is installed
+
+---
+ cloudera/do-release-build |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/cloudera/do-release-build b/cloudera/do-release-build
+index d039fe5..173cfe8 100755
+--- a/cloudera/do-release-build
++++ b/cloudera/do-release-build
+@@ -52,7 +52,7 @@ if which aclocal-1.9 && which autoconf ; then
+     -Dcompile.native=true create-c++-configure
+ fi
+ 
+-if which libtoolize ; then
++if which libtoolize && libtoolize --version | grep --silent 2.2 ; then
+   for dir in src/native src/examples/pipes src/c++/libhdfs/ src/c++/pipes src/c++/utils ; do
+     (cd $dir && libtoolize --force)
+   done
+-- 
+1.6.0.4
+

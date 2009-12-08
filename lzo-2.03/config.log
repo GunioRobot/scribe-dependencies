@@ -30,8 +30,8 @@ Kernel configured for up to 2 processors.
 Processor type: i486 (Intel 80486)
 Processors active: 0 1
 Primary memory available: 4.00 gigabytes
-Default processor set: 87 tasks, 360 threads, 2 processors
-Load average: 1.18, Mach factor: 1.27
+Default processor set: 92 tasks, 382 threads, 2 processors
+Load average: 0.88, Mach factor: 1.11
 /bin/machine           = unknown
 /usr/bin/oslevel       = unknown
 /bin/universe          = unknown
@@ -1849,8 +1849,8 @@ configure:30111: gcc -o conftest -g -O2   conftest.c  >&5
 conftest.c:103: warning: conflicting types for built-in function 'alloca'
 Undefined symbols:
   "_alloca", referenced from:
-      _main in ccA5TsDi.o
-      _f in ccA5TsDi.o
+      _main in ccGbJwvq.o
+      _f in ccGbJwvq.o
 ld: symbol(s) not found
 collect2: ld returned 1 exit status
 configure:30117: $? = 1
@@ -2022,8 +2022,8 @@ configure:30054: checking for clock_getcpuclockid
 configure:30111: gcc -o conftest -g -O2   conftest.c  >&5
 Undefined symbols:
   "_clock_getcpuclockid", referenced from:
-      _main in ccEHCOnx.o
-      _f in ccEHCOnx.o
+      _main in ccJX4mLB.o
+      _f in ccJX4mLB.o
 ld: symbol(s) not found
 collect2: ld returned 1 exit status
 configure:30117: $? = 1
@@ -2160,8 +2160,8 @@ configure:30054: checking for clock_getres
 configure:30111: gcc -o conftest -g -O2   conftest.c  >&5
 Undefined symbols:
   "_clock_getres", referenced from:
-      _main in ccxMPhnD.o
-      _f in ccxMPhnD.o
+      _main in ccUWJXRq.o
+      _f in ccUWJXRq.o
 ld: symbol(s) not found
 collect2: ld returned 1 exit status
 configure:30117: $? = 1
@@ -2298,8 +2298,8 @@ configure:30054: checking for clock_gettime
 configure:30111: gcc -o conftest -g -O2   conftest.c  >&5
 Undefined symbols:
   "_clock_gettime", referenced from:
-      _main in ccGGwbcG.o
-      _f in ccGGwbcG.o
+      _main in ccoUeDj6.o
+      _f in ccoUeDj6.o
 ld: symbol(s) not found
 collect2: ld returned 1 exit status
 configure:30117: $? = 1
@@ -2701,8 +2701,8 @@ configure:30054: checking for stricmp
 configure:30111: gcc -o conftest -g -O2   conftest.c  >&5
 Undefined symbols:
   "_stricmp", referenced from:
-      _main in ccT1dPX9.o
-      _f in ccT1dPX9.o
+      _main in ccRh8jAF.o
+      _f in ccRh8jAF.o
 ld: symbol(s) not found
 collect2: ld returned 1 exit status
 configure:30117: $? = 1
@@ -2880,8 +2880,8 @@ configure:30054: checking for strnicmp
 configure:30111: gcc -o conftest -g -O2   conftest.c  >&5
 Undefined symbols:
   "_strnicmp", referenced from:
-      _main in ccuWAhJI.o
-      _f in ccuWAhJI.o
+      _main in ccSuRRlu.o
+      _f in ccSuRRlu.o
 ld: symbol(s) not found
 collect2: ld returned 1 exit status
 configure:30117: $? = 1
@@ -3132,6 +3132,7 @@ config.status:776: creating minilzo/Makefile
 config.status:776: creating src/Makefile
 config.status:776: creating tests/Makefile
 config.status:842: creating config.h
+config.status:1200: config.h is unchanged
 config.status:1380: executing depfiles commands
 
 ## ---------------- ##

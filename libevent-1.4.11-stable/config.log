@@ -30,8 +30,8 @@ Kernel configured for up to 2 processors.
 Processor type: i486 (Intel 80486)
 Processors active: 0 1
 Primary memory available: 4.00 gigabytes
-Default processor set: 87 tasks, 360 threads, 2 processors
-Load average: 0.76, Mach factor: 1.23
+Default processor set: 91 tasks, 371 threads, 2 processors
+Load average: 1.38, Mach factor: 1.15
 /bin/machine           = unknown
 /usr/bin/oslevel       = unknown
 /bin/universe          = unknown
@@ -1320,7 +1320,7 @@ configure:21109: checking for clock_gettime
 configure:21165: gcc -o conftest -g -O2 -Wall   conftest.c -lresolv  >&5
 Undefined symbols:
   "_clock_gettime", referenced from:
-      _main in ccGYhwX5.o
+      _main in ccqRQUy9.o
 ld: symbol(s) not found
 collect2: ld returned 1 exit status
 configure:21172: $? = 1
@@ -1465,7 +1465,7 @@ configure:21843: checking for epoll_ctl
 configure:21899: gcc -o conftest -g -O2 -Wall   conftest.c -lresolv  >&5
 Undefined symbols:
   "_epoll_ctl", referenced from:
-      _main in ccv2iVmq.o
+      _main in ccBo6XNu.o
 ld: symbol(s) not found
 collect2: ld returned 1 exit status
 configure:21906: $? = 1
@@ -1585,7 +1585,7 @@ configure:22285: checking for port_create
 configure:22341: gcc -o conftest -g -O2 -Wall   conftest.c -lresolv  >&5
 Undefined symbols:
   "_port_create", referenced from:
-      _main in cc4evz1x.o
+      _main in ccqRED1S.o
 ld: symbol(s) not found
 collect2: ld returned 1 exit status
 configure:22348: $? = 1

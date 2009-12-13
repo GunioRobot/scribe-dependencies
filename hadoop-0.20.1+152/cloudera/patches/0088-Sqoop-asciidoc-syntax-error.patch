@@ -1,0 +1,25 @@
+From 68596d06c2821caf802e8debb59b173e0e896e29 Mon Sep 17 00:00:00 2001
+From: Aaron Kimball <aaron@cloudera.com>
+Date: Tue, 15 Sep 2009 14:24:53 -0700
+Subject: [PATCH] Sqoop asciidoc syntax error
+
+---
+ src/contrib/sqoop/doc/hive.txt |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/src/contrib/sqoop/doc/hive.txt b/src/contrib/sqoop/doc/hive.txt
+index e0c4b85..bdaa727 100644
+--- a/src/contrib/sqoop/doc/hive.txt
++++ b/src/contrib/sqoop/doc/hive.txt
+@@ -33,7 +33,7 @@ Hive's types, and a +LOAD DATA INPATH+ statement to move the data files
+ into Hive's warehouse directory. The script will be executed by
+ calling the installed copy of hive on the machine where Sqoop is run.
+ If you have multiple Hive installations, or +hive+ is not in your
+-+$PATH+ use the +*--hive-home*+ option to identify the Hive installation
+++$PATH+ use the *+--hive-home+* option to identify the Hive installation
+ directory. Sqoop will use +$HIVE_HOME/bin/hive+ from here.
+ 
+ NOTE: This function is incompatible with +--as-sequencefile+.
+-- 
+1.6.0.4
+

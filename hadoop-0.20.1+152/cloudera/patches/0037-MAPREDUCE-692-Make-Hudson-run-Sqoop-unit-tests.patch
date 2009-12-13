@@ -1,0 +1,24 @@
+From 0fe64cbc39a58f47b9facf613b9e11cd6f5d8ebe Mon Sep 17 00:00:00 2001
+From: Aaron Kimball <aaron@cloudera.com>
+Date: Thu, 23 Jul 2009 16:12:20 -0700
+Subject: [PATCH] MAPREDUCE-692: Make Hudson run Sqoop unit tests
+
+---
+ src/contrib/build.xml |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+
+diff --git a/src/contrib/build.xml b/src/contrib/build.xml
+index 3455900..81d189c 100644
+--- a/src/contrib/build.xml
++++ b/src/contrib/build.xml
+@@ -51,6 +51,7 @@
+       <fileset dir="." includes="fairscheduler/build.xml"/>
+       <fileset dir="." includes="capacity-scheduler/build.xml"/>
+       <fileset dir="." includes="mrunit/build.xml"/>
++      <fileset dir="." includes="sqoop/build.xml"/>
+     </subant>
+   </target>
+   
+-- 
+1.6.0.4
+

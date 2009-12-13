@@ -1,0 +1,26 @@
+From 6f476cfac44d6539ecdfefd5d9c6e7805328487b Mon Sep 17 00:00:00 2001
+From: Aaron Kimball <aaron@cloudera.com>
+Date: Mon, 14 Sep 2009 17:42:18 -0700
+Subject: [PATCH] MAPREDUCE-792: Fix unchecked warnings in DBInputFormat
+
+---
+ .../hadoop/mapreduce/lib/db/DBInputFormat.java     |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
+
+diff --git a/src/mapred/org/apache/hadoop/mapreduce/lib/db/DBInputFormat.java b/src/mapred/org/apache/hadoop/mapreduce/lib/db/DBInputFormat.java
+index 6aba70d..ef8bd98 100644
+--- a/src/mapred/org/apache/hadoop/mapreduce/lib/db/DBInputFormat.java
++++ b/src/mapred/org/apache/hadoop/mapreduce/lib/db/DBInputFormat.java
+@@ -176,7 +176,8 @@ public class DBInputFormat<T extends DBWritable>
+   protected RecordReader<LongWritable, T> createDBRecordReader(DBInputSplit split,
+       Configuration conf) throws IOException {
+ 
+-    Class inputClass = dbConf.getInputClass();
++    @SuppressWarnings("unchecked")
++    Class<T> inputClass = (Class<T>) (dbConf.getInputClass());
+     try {
+       // use database product name to determine appropriate record reader.
+       if (dbProductName.startsWith("ORACLE")) {
+-- 
+1.6.0.4
+

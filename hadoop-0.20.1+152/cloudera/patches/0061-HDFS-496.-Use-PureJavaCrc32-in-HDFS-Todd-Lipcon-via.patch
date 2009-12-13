@@ -1,0 +1,63 @@
+From 8bf4c9f9c6b1543161b9db6be443e7a131c8d22d Mon Sep 17 00:00:00 2001
+From: Todd Lipcon <todd@cloudera.com>
+Date: Wed, 26 Aug 2009 11:34:51 -0700
+Subject: [PATCH] HDFS-496. Use PureJavaCrc32 in HDFS (Todd Lipcon via szetszwo)
+
+---
+ src/hdfs/org/apache/hadoop/hdfs/DFSClient.java     |    3 +--
+ .../hadoop/hdfs/server/datanode/BlockReceiver.java |    4 ++--
+ 2 files changed, 3 insertions(+), 4 deletions(-)
+
+diff --git a/src/hdfs/org/apache/hadoop/hdfs/DFSClient.java b/src/hdfs/org/apache/hadoop/hdfs/DFSClient.java
+index 6e32620..1170697 100644
+--- a/src/hdfs/org/apache/hadoop/hdfs/DFSClient.java
++++ b/src/hdfs/org/apache/hadoop/hdfs/DFSClient.java
+@@ -43,7 +43,6 @@ import org.apache.commons.logging.*;
+ import java.io.*;
+ import java.net.*;
+ import java.util.*;
+-import java.util.zip.CRC32;
+ import java.util.concurrent.TimeUnit;
+ import java.util.concurrent.ConcurrentHashMap;
+ import java.nio.BufferOverflowException;
+@@ -2640,7 +2639,7 @@ public class DFSClient implements FSConstants, java.io.Closeable {
+ 
+     private DFSOutputStream(String src, long blockSize, Progressable progress,
+         int bytesPerChecksum) throws IOException {
+-      super(new CRC32(), bytesPerChecksum, 4);
++      super(new PureJavaCrc32(), bytesPerChecksum, 4);
+       this.src = src;
+       this.blockSize = blockSize;
+       this.progress = progress;
+diff --git a/src/hdfs/org/apache/hadoop/hdfs/server/datanode/BlockReceiver.java b/src/hdfs/org/apache/hadoop/hdfs/server/datanode/BlockReceiver.java
+index 197e0f6..9df050e 100644
+--- a/src/hdfs/org/apache/hadoop/hdfs/server/datanode/BlockReceiver.java
++++ b/src/hdfs/org/apache/hadoop/hdfs/server/datanode/BlockReceiver.java
+@@ -25,7 +25,6 @@ import java.io.IOException;
+ import java.io.OutputStream;
+ import java.nio.ByteBuffer;
+ import java.util.LinkedList;
+-import java.util.zip.CRC32;
+ import java.util.zip.Checksum;
+ 
+ import org.apache.commons.logging.Log;
+@@ -39,6 +38,7 @@ import org.apache.hadoop.hdfs.protocol.LocatedBlock;
+ import org.apache.hadoop.io.IOUtils;
+ import org.apache.hadoop.util.Daemon;
+ import org.apache.hadoop.util.DataChecksum;
++import org.apache.hadoop.util.PureJavaCrc32;
+ import org.apache.hadoop.util.StringUtils;
+ import static org.apache.hadoop.hdfs.server.datanode.DataNode.DN_CLIENTTRACE_FORMAT;
+ 
+@@ -667,7 +667,7 @@ class BlockReceiver implements java.io.Closeable, FSConstants {
+     }
+ 
+     // compute crc of partial chunk from data read in the block file.
+-    partialCrc = new CRC32();
++    partialCrc = new PureJavaCrc32();
+     partialCrc.update(buf, 0, sizePartialChunk);
+     LOG.info("Read in partial CRC chunk from disk for block " + block);
+ 
+-- 
+1.6.0.4
+

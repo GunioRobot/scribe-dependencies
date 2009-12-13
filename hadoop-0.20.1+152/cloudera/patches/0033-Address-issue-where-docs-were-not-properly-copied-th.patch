@@ -1,0 +1,30 @@
+From 3c65058ccc8e5ddc78c9438ddec7b268349571a4 Mon Sep 17 00:00:00 2001
+From: Todd Lipcon <todd@cloudera.com>
+Date: Tue, 21 Jul 2009 16:18:18 -0700
+Subject: [PATCH] Address issue where docs were not properly copied through to release tarball
+
+This was caused by some cleanup in build.xml early on in the CDH 0.20
+branch
+---
+ build.xml |    5 ++++-
+ 1 files changed, 4 insertions(+), 1 deletions(-)
+
+diff --git a/build.xml b/build.xml
+index c629a61..2e6a922 100644
+--- a/build.xml
++++ b/build.xml
+@@ -1080,7 +1080,10 @@
+     <copy todir="${dist.dir}/src" includeEmptyDirs="true">
+       <fileset dir="src" excludes="**/*.template **/docs/build/**/*"/>
+     </copy>
+-  	
++
++    <copy todir="${dist.dir}/docs">
++      <fileset dir="${build.docs}"/>
++    </copy>
+ 
+     <chmod perm="ugo+x" type="file" parallel="false">
+         <fileset dir="${dist.dir}/src/contrib/">
+-- 
+1.6.0.4
+

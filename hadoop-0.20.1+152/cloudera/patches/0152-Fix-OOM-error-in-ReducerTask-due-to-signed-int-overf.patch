@@ -1,0 +1,80 @@
+From c15291d10caa19c2355f437936c7678d537adf94 Mon Sep 17 00:00:00 2001
+From: Aaron Kimball <aaron@cloudera.com>
+Date: Thu, 29 Oct 2009 15:23:22 -0700
+Subject: [PATCH] Fix OOM error in ReducerTask due to signed int overflow.
+
+---
+ .../org/apache/hadoop/mapred/ReduceTask.java       |   24 ++++++++++----------
+ 1 files changed, 12 insertions(+), 12 deletions(-)
+
+diff --git a/src/mapred/org/apache/hadoop/mapred/ReduceTask.java b/src/mapred/org/apache/hadoop/mapred/ReduceTask.java
+index 1df7d90..06ca77a 100644
+--- a/src/mapred/org/apache/hadoop/mapred/ReduceTask.java
++++ b/src/mapred/org/apache/hadoop/mapred/ReduceTask.java
+@@ -987,13 +987,13 @@ class ReduceTask extends Task {
+        * simultaneously after which a merge is triggered. */ 
+       private static final float MAX_STALLED_SHUFFLE_THREADS_FRACTION = 0.75f;
+       
+-      private final int maxSize;
+-      private final int maxSingleShuffleLimit;
++      private final long maxSize;
++      private final long maxSingleShuffleLimit;
+       
+-      private int size = 0;
++      private long size = 0;
+       
+       private Object dataAvailable = new Object();
+-      private int fullSize = 0;
++      private long fullSize = 0;
+       private int numPendingRequests = 0;
+       private int numRequiredMapOutputs = 0;
+       private int numClosed = 0;
+@@ -1006,10 +1006,10 @@ class ReduceTask extends Task {
+           throw new IOException("mapred.job.shuffle.input.buffer.percent" +
+                                 maxInMemCopyUse);
+         }
+-        maxSize = (int)Math.min(
+-            Runtime.getRuntime().maxMemory() * maxInMemCopyUse,
+-            Integer.MAX_VALUE);
+-        maxSingleShuffleLimit = (int)(maxSize * MAX_SINGLE_SHUFFLE_SEGMENT_FRACTION);
++        maxSize = Math.min(
++            (long) (Runtime.getRuntime().maxMemory() * maxInMemCopyUse),
++            Long.MAX_VALUE);
++        maxSingleShuffleLimit = (long)(maxSize * MAX_SINGLE_SHUFFLE_SEGMENT_FRACTION);
+         LOG.info("ShuffleRamManager: MemoryLimit=" + maxSize + 
+                  ", MaxSingleShuffleLimit=" + maxSingleShuffleLimit);
+       }
+@@ -1017,7 +1017,7 @@ class ReduceTask extends Task {
+       public synchronized boolean reserve(int requestedSize, InputStream in) 
+       throws InterruptedException {
+         // Wait till the request can be fulfilled...
+-        while ((size + requestedSize) > maxSize) {
++        while ((size + (long)requestedSize) > maxSize) {
+           
+           // Close the input...
+           if (in != null) {
+@@ -1051,10 +1051,10 @@ class ReduceTask extends Task {
+       }
+       
+       public synchronized void unreserve(int requestedSize) {
+-        size -= requestedSize;
++        size -= (long)requestedSize;
+         
+         synchronized (dataAvailable) {
+-          fullSize -= requestedSize;
++          fullSize -= (long)requestedSize;
+           --numClosed;
+         }
+         
+@@ -1122,7 +1122,7 @@ class ReduceTask extends Task {
+       }
+ 
+       int getMemoryLimit() {
+-        return maxSize;
++        return (int)maxSize;
+       }
+       
+       boolean canFitInMemory(long requestedSize) {
+-- 
+1.6.0.4
+

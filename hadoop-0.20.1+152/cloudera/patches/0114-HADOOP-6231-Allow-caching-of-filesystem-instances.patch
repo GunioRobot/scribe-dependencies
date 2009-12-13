@@ -1,0 +1,100 @@
+From 78be540d795d25b86973d6074c37873734c7ac6d Mon Sep 17 00:00:00 2001
+From: Chad Metcalf <chad@cloudera.com>
+Date: Tue, 15 Sep 2009 22:18:24 -0700
+Subject: [PATCH] HADOOP-6231:  Allow caching of filesystem instances to be disabled on a per-instance basis
+
+---
+ src/core/core-default.xml                          |    6 +++
+ src/core/org/apache/hadoop/fs/FileSystem.java      |    5 ++
+ .../org/apache/hadoop/fs/TestDisableCache.java     |   46 ++++++++++++++++++++
+ 3 files changed, 57 insertions(+), 0 deletions(-)
+ create mode 100644 src/test/org/apache/hadoop/fs/TestDisableCache.java
+
+diff --git a/src/core/core-default.xml b/src/core/core-default.xml
+index 44e55dc..c8e7c39 100644
+--- a/src/core/core-default.xml
++++ b/src/core/core-default.xml
+@@ -169,6 +169,12 @@
+ </property>
+ 
+ <property>
++  <name>fs.har.impl.disable.cache</name>
++  <value>true</value>
++  <description>Don't cache 'har' filesystem instances.</description>
++</property>
++
++<property>
+   <name>fs.checkpoint.dir</name>
+   <value>${hadoop.tmp.dir}/dfs/namesecondary</value>
+   <description>Determines where on the local filesystem the DFS secondary
+diff --git a/src/core/org/apache/hadoop/fs/FileSystem.java b/src/core/org/apache/hadoop/fs/FileSystem.java
+index 530bd75..945ad2e 100644
+--- a/src/core/org/apache/hadoop/fs/FileSystem.java
++++ b/src/core/org/apache/hadoop/fs/FileSystem.java
+@@ -188,6 +188,11 @@ public abstract class FileSystem extends Configured implements Closeable {
+         return get(defaultUri, conf);              // return default
+       }
+     }
++    
++    String disableCacheName = String.format("fs.%s.impl.disable.cache", scheme);
++    if (conf.getBoolean(disableCacheName, false)) {
++      return createFileSystem(uri, conf);
++    }
+ 
+     return CACHE.get(uri, conf);
+   }
+diff --git a/src/test/org/apache/hadoop/fs/TestDisableCache.java b/src/test/org/apache/hadoop/fs/TestDisableCache.java
+new file mode 100644
+index 0000000..bbd1512
+--- /dev/null
++++ b/src/test/org/apache/hadoop/fs/TestDisableCache.java
+@@ -0,0 +1,46 @@
++/**
++ * Licensed to the Apache Software Foundation (ASF) under one
++ * or more contributor license agreements.  See the NOTICE file
++ * distributed with this work for additional information
++ * regarding copyright ownership.  The ASF licenses this file
++ * to you under the Apache License, Version 2.0 (the
++ * "License"); you may not use this file except in compliance
++ * with the License.  You may obtain a copy of the License at
++ *
++ *     http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package org.apache.hadoop.fs;
++
++import java.net.URI;
++
++import junit.framework.TestCase;
++
++import org.apache.hadoop.conf.Configuration;
++
++public class TestDisableCache extends TestCase {
++
++  public void testCacheEnabled() throws Exception {
++    Configuration conf = new Configuration();
++    conf.set("fs.cachedfile.impl", conf.get("fs.file.impl"));
++    FileSystem fs1 = FileSystem.get(new URI("cachedfile://a"), conf);
++    FileSystem fs2 = FileSystem.get(new URI("cachedfile://a"), conf);
++    assertSame(fs1, fs2);
++  }
++  
++  public void testCacheDisabled() throws Exception {
++    Configuration conf = new Configuration();
++    conf.set("fs.uncachedfile.impl", conf.get("fs.file.impl"));
++    conf.setBoolean("fs.uncachedfile.impl.disable.cache", true);
++    FileSystem fs1 = FileSystem.get(new URI("uncachedfile://a"), conf);
++    FileSystem fs2 = FileSystem.get(new URI("uncachedfile://a"), conf);
++    assertNotSame(fs1, fs2);
++  }
++
++}
+-- 
+1.6.0.4
+

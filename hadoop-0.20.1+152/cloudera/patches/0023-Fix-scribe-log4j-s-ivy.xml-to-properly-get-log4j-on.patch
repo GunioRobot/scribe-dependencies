@@ -1,0 +1,34 @@
+From 3a4cdcc07b94c1cb26949e626e52f95674d90a59 Mon Sep 17 00:00:00 2001
+From: Todd Lipcon <todd@cloudera.com>
+Date: Thu, 16 Jul 2009 15:15:18 -0700
+Subject: [PATCH] Fix scribe-log4j's ivy.xml to properly get log4j on the compile classpath
+
+---
+ src/contrib/scribe-log4j/ivy.xml |   12 ++++++++++++
+ 1 files changed, 12 insertions(+), 0 deletions(-)
+
+diff --git a/src/contrib/scribe-log4j/ivy.xml b/src/contrib/scribe-log4j/ivy.xml
+index e775663..043ce75 100644
+--- a/src/contrib/scribe-log4j/ivy.xml
++++ b/src/contrib/scribe-log4j/ivy.xml
+@@ -18,5 +18,17 @@
+       description="artifacts needed to compile/test the application"/>
+   </configurations>
+   <dependencies>
++    <dependency org="commons-logging"
++      name="commons-logging"
++      rev="${commons-logging.version}"
++      conf="common->master"/>
++    <dependency org="log4j"
++      name="log4j"
++      rev="${log4j.version}"
++      conf="common->master"/>
++   <dependency org="junit"
++      name="junit"
++      rev="${junit.version}"
++      conf="common->master"/>
+   </dependencies>
+ </ivy-module>
+-- 
+1.6.0.4
+

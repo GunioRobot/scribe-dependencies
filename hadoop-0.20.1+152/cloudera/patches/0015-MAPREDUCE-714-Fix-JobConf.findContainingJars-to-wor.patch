@@ -1,0 +1,30 @@
+From c6884be8bded19d36ffa01163473abdac877c66d Mon Sep 17 00:00:00 2001
+From: Todd Lipcon <todd@cloudera.com>
+Date: Mon, 6 Jul 2009 19:36:11 -0700
+Subject: [PATCH] MAPREDUCE-714: Fix JobConf.findContainingJars to work with jars with + in the name
+
+---
+ src/mapred/org/apache/hadoop/mapred/JobConf.java |    7 +++++++
+ 1 files changed, 7 insertions(+), 0 deletions(-)
+
+diff --git a/src/mapred/org/apache/hadoop/mapred/JobConf.java b/src/mapred/org/apache/hadoop/mapred/JobConf.java
+index 4f8602b..942c5d5 100644
+--- a/src/mapred/org/apache/hadoop/mapred/JobConf.java
++++ b/src/mapred/org/apache/hadoop/mapred/JobConf.java
+@@ -1512,6 +1512,13 @@ public class JobConf extends Configuration {
+           if (toReturn.startsWith("file:")) {
+             toReturn = toReturn.substring("file:".length());
+           }
++          // URLDecoder is a misnamed class, since it actually decodes
++          // x-www-form-urlencoded MIME type rather than actual
++          // URL encoding (which the file path has). Therefore it would
++          // decode +s to ' 's which is incorrect (spaces are actually
++          // either unencoded or encoded as "%20"). Replace +s first, so
++          // that they are kept sacred during the decoding process.
++          toReturn = toReturn.replaceAll("\\+", "%2B");
+           toReturn = URLDecoder.decode(toReturn, "UTF-8");
+           return toReturn.replaceAll("!.*$", "");
+         }
+-- 
+1.6.0.4
+

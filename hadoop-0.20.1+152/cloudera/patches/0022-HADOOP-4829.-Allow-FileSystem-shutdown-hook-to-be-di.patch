@@ -1,0 +1,224 @@
+From 4874fe48d0f837a326e39958a817871d5b31be4c Mon Sep 17 00:00:00 2001
+From: Thomas White <tomwhite@apache.org>
+Date: Thu, 21 May 2009 15:22:47 +0000
+Subject: [PATCH] HADOOP-4829. Allow FileSystem shutdown hook to be disabled. Contributed by Todd Lipcon.
+
+git-svn-id: https://svn.apache.org/repos/asf/hadoop/core/trunk@777152 13f79535-47bb-0310-9956-ffa450edef68
+---
+ src/core/core-default.xml                         |   11 ++++
+ src/core/org/apache/hadoop/fs/FileSystem.java     |   56 +++++++++++++++------
+ src/test/org/apache/hadoop/fs/TestFileSystem.java |   46 +++++++++++++++++
+ 3 files changed, 97 insertions(+), 16 deletions(-)
+
+diff --git a/src/core/core-default.xml b/src/core/core-default.xml
+index 41974c7..44e55dc 100644
+--- a/src/core/core-default.xml
++++ b/src/core/core-default.xml
+@@ -238,6 +238,17 @@
+ 
+ 
+ <property>
++  <name>fs.automatic.close</name>
++  <value>true</value>
++  <description>By default, FileSystem instances are automatically closed at program
++  exit using a JVM shutdown hook. Setting this property to false disables this
++  behavior. This is an advanced option that should only be used by server applications
++  requiring a more carefully orchestrated shutdown sequence.
++  </description>
++</property>
++
++
++<property>
+   <name>local.cache.size</name>
+   <value>10737418240</value>
+   <description>The limit on the size of cache you want to keep, set by default
+diff --git a/src/core/org/apache/hadoop/fs/FileSystem.java b/src/core/org/apache/hadoop/fs/FileSystem.java
+index 4d07500..530bd75 100644
+--- a/src/core/org/apache/hadoop/fs/FileSystem.java
++++ b/src/core/org/apache/hadoop/fs/FileSystem.java
+@@ -25,6 +25,7 @@ import java.util.ArrayList;
+ import java.util.Arrays;
+ import java.util.Collection;
+ import java.util.HashMap;
++import java.util.HashSet;
+ import java.util.IdentityHashMap;
+ import java.util.Iterator;
+ import java.util.List;
+@@ -69,7 +70,7 @@ public abstract class FileSystem extends Configured implements Closeable {
+   public static final Log LOG = LogFactory.getLog(FileSystem.class);
+ 
+   /** FileSystem cache */
+-  private static final Cache CACHE = new Cache();
++  static final Cache CACHE = new Cache();
+ 
+   /** The key this instance is stored under in the cache. */
+   private Cache.Key key;
+@@ -191,17 +192,6 @@ public abstract class FileSystem extends Configured implements Closeable {
+     return CACHE.get(uri, conf);
+   }
+ 
+-  private static class ClientFinalizer extends Thread {
+-    public synchronized void run() {
+-      try {
+-        FileSystem.closeAll();
+-      } catch (IOException e) {
+-        LOG.info("FileSystem.closeAll() threw an exception:\n" + e);
+-      }
+-    }
+-  }
+-  private static final ClientFinalizer clientFinalizer = new ClientFinalizer();
+-
+   /**
+    * Close all cached filesystems. Be sure those filesystems are not
+    * used anymore.
+@@ -1376,7 +1366,10 @@ public abstract class FileSystem extends Configured implements Closeable {
+ 
+   /** Caching FileSystem objects */
+   static class Cache {
++    private final ClientFinalizer clientFinalizer = new ClientFinalizer();
++
+     private final Map<Key, FileSystem> map = new HashMap<Key, FileSystem>();
++    private final Set<Key> toAutoClose = new HashSet<Key>();
+ 
+     synchronized FileSystem get(URI uri, Configuration conf) throws IOException{
+       Key key = new Key(uri, conf);
+@@ -1388,6 +1381,10 @@ public abstract class FileSystem extends Configured implements Closeable {
+         }
+         fs.key = key;
+         map.put(key, fs);
++
++        if (conf.getBoolean("fs.automatic.close", true)) {
++          toAutoClose.add(key);
++        }
+       }
+       return fs;
+     }
+@@ -1395,6 +1392,7 @@ public abstract class FileSystem extends Configured implements Closeable {
+     synchronized void remove(Key key, FileSystem fs) {
+       if (map.containsKey(key) && fs == map.get(key)) {
+         map.remove(key);
++        toAutoClose.remove(key);
+         if (map.isEmpty() && !clientFinalizer.isAlive()) {
+           if (!Runtime.getRuntime().removeShutdownHook(clientFinalizer)) {
+             LOG.info("Could not cancel cleanup thread, though no " +
+@@ -1405,11 +1403,27 @@ public abstract class FileSystem extends Configured implements Closeable {
+     }
+ 
+     synchronized void closeAll() throws IOException {
++      closeAll(false);
++    }
++
++    /**
++     * Close all FileSystem instances in the Cache.
++     * @param onlyAutomatic only close those that are marked for automatic closing
++     */
++    synchronized void closeAll(boolean onlyAutomatic) throws IOException {
+       List<IOException> exceptions = new ArrayList<IOException>();
+-      for(; !map.isEmpty(); ) {
+-        Map.Entry<Key, FileSystem> e = map.entrySet().iterator().next();
+-        final Key key = e.getKey();
+-        final FileSystem fs = e.getValue();
++
++      // Make a copy of the keys in the map since we'll be modifying
++      // the map while iterating over it, which isn't safe.
++      List<Key> keys = new ArrayList<Key>();
++      keys.addAll(map.keySet());
++
++      for (Key key : keys) {
++        final FileSystem fs = map.get(key);
++
++        if (onlyAutomatic && !toAutoClose.contains(key)) {
++          continue;
++        }
+ 
+         //remove from cache
+         remove(key, fs);
+@@ -1429,6 +1443,16 @@ public abstract class FileSystem extends Configured implements Closeable {
+       }
+     }
+ 
++    private class ClientFinalizer extends Thread {
++      public synchronized void run() {
++        try {
++          closeAll(true);
++        } catch (IOException e) {
++          LOG.info("FileSystem.Cache.closeAll() threw an exception:\n" + e);
++        }
++      }
++    }
++
+     /** FileSystem.Cache.Key */
+     static class Key {
+       final String scheme;
+diff --git a/src/test/org/apache/hadoop/fs/TestFileSystem.java b/src/test/org/apache/hadoop/fs/TestFileSystem.java
+index a1f4348..00fe345 100644
+--- a/src/test/org/apache/hadoop/fs/TestFileSystem.java
++++ b/src/test/org/apache/hadoop/fs/TestFileSystem.java
+@@ -22,6 +22,7 @@ import java.io.DataInputStream;
+ import java.io.IOException;
+ import java.io.OutputStream;
+ import java.util.Arrays;
++import java.util.Collections;
+ import java.util.Random;
+ import java.util.List;
+ import java.util.ArrayList;
+@@ -586,6 +587,37 @@ public class TestFileSystem extends TestCase {
+     }
+   }
+ 
++  public void testFsShutdownHook() throws Exception {
++    final Set<FileSystem> closed = Collections.synchronizedSet(new HashSet<FileSystem>());
++    Configuration conf = new Configuration();
++    Configuration confNoAuto = new Configuration();
++
++    conf.setClass("fs.test.impl", TestShutdownFileSystem.class, FileSystem.class);
++    confNoAuto.setClass("fs.test.impl", TestShutdownFileSystem.class, FileSystem.class);
++    confNoAuto.setBoolean("fs.automatic.close", false);
++
++    TestShutdownFileSystem fsWithAuto =
++      (TestShutdownFileSystem)(new Path("test://a/").getFileSystem(conf));
++    TestShutdownFileSystem fsWithoutAuto =
++      (TestShutdownFileSystem)(new Path("test://b/").getFileSystem(confNoAuto));
++
++    fsWithAuto.setClosedSet(closed);
++    fsWithoutAuto.setClosedSet(closed);
++
++    // Different URIs should result in different FS instances
++    assertNotSame(fsWithAuto, fsWithoutAuto);
++
++    FileSystem.CACHE.closeAll(true);
++    assertEquals(1, closed.size());
++    assertTrue(closed.contains(fsWithAuto));
++
++    closed.clear();
++
++    FileSystem.closeAll();
++    assertEquals(1, closed.size());
++    assertTrue(closed.contains(fsWithoutAuto));
++  }
++
+ 
+   public void testCacheKeysAreCaseInsensitive()
+     throws Exception
+@@ -618,4 +650,18 @@ public class TestFileSystem extends TestCase {
+     assertTrue(map.containsKey(lowercaseCachekey2));    
+ 
+   }
++
++  public static class TestShutdownFileSystem extends RawLocalFileSystem {
++    private Set<FileSystem> closedSet;
++
++    public void setClosedSet(Set<FileSystem> closedSet) {
++      this.closedSet = closedSet;
++    }
++    public void close() throws IOException {
++      if (closedSet != null) {
++        closedSet.add(this);
++      }
++      super.close();
++    }
++  }
+ }
+-- 
+1.6.0.4
+

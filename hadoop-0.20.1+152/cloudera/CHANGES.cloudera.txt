@@ -1,0 +1,1007 @@
+commit c15291d10caa19c2355f437936c7678d537adf94
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Thu Oct 29 15:23:22 2009 -0700
+
+    Fix OOM error in ReducerTask due to signed int overflow.
+
+commit f579d8ac2c71a493abdfff2c45592b2e282b36fb
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Thu Oct 29 14:38:17 2009 -0700
+
+    Revert "MAPREDUCE-967. TaskTrackers do not fully unjar job.jar"
+    
+    This reverts commit 9b82cd7ad13c852f5d5837e89ed0084f7353a78a.
+
+commit a3e73a67473707094798585045fdcb7c2a19a82c
+Author: Chad Metcalf <chad@cloudera.com>
+Date:   Thu Oct 29 16:35:50 2009 -0700
+
+    HDFS-732. HDFS files are ending up truncated
+
+commit aa16706e7ceeb65e2ed9dbdb286d2d79003d79b9
+Author: Chad Metcalf <chad@cloudera.com>
+Date:   Wed Oct 28 16:53:33 2009 -0700
+
+    HADOOP-5640 puts this in the new test dir. It needs to be in the old one.
+
+commit a9064f98e27ebfaaeedc76a96ea49f9780892f42
+Author: Chad Metcalf <chad@cloudera.com>
+Date:   Wed Oct 28 15:46:49 2009 -0700
+
+    MAPREDUCE-1017. Compression and output splitting for Sqoop
+
+commit 0961b82c52cb511c8c03baf699b33cbed945748d
+Author: Chad Metcalf <chad@cloudera.com>
+Date:   Tue Oct 27 15:45:44 2009 -0700
+
+    HADOOP-6312. Configuration sends too much data to log4j
+
+commit 3117fbb6a2b255a306ab602352b839ef69c62f60
+Author: Chad Metcalf <chad@cloudera.com>
+Date:   Tue Oct 27 15:41:05 2009 -0700
+
+    HADOOP-5759. IllegalArgumentException when CombineFileInputFormat is used as job InputFormat
+
+commit 4261c03c0fceef239fd08755b5065cefa556f777
+Author: Chad Metcalf <chad@cloudera.com>
+Date:   Tue Oct 27 15:40:16 2009 -0700
+
+    HDFS-686. NullPointerException is thrown while merging edit log and image
+
+commit ddd28f4fc5710c2262a1ea7929e2ca688dc565e0
+Author: Chad Metcalf <chad@cloudera.com>
+Date:   Tue Oct 27 15:39:33 2009 -0700
+
+    HDFS-677. Rename failure due to quota results in deletion of src directory
+
+commit 418c903b6c350e1af9de96a722aa48e732e34048
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Wed Oct 28 11:33:27 2009 -0700
+
+    MAPREDUCE-112. Add counters for reduce input, output records to the new API.
+    Contributed by Jothi Padmanabhan
+
+commit 38c32cc6eeacc4bb2137b0b07b3f5ce2747e6981
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Wed Oct 28 11:23:59 2009 -0700
+
+    MAPREDUCE-768. Add hadoop jobtracker -dumpConfiguration command
+    
+    This is modified from the original patch in that it does not dump QueueManager configuration.
+    This is because we have not backported HADOOP-5396
+
+commit 19654b90fa67491e5b4a6c51f67b5452d62b754f
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Wed Oct 28 11:10:41 2009 -0700
+
+    HADOOP-6184. Provide a configuration dump in json format.
+
+commit ac41af8a2c74e34b672f43b55a61ac2ebd76d1ff
+Author: Chad Metcalf <chad@cloudera.com>
+Date:   Mon Oct 26 11:39:07 2009 -0700
+
+    Duplicated effort. FULL_VERSION already set in package.mk
+    Revert "Need to pass in FULL_VERSION"
+    
+    This reverts commit f8e6f5c017e79223934e3333ad96d84dbbc0fcbb.
+
+commit 31a79c62df9bcf785290c1000e1d61b9a0caf0f1
+Author: Chad Metcalf <chad@cloudera.com>
+Date:   Mon Oct 26 10:56:44 2009 -0700
+
+    Copy the scoop man page to the expected version number.
+
+commit cb3092588975396fa5628608f0671a42abd380c0
+Author: Chad Metcalf <chad@cloudera.com>
+Date:   Fri Oct 16 14:07:45 2009 -0700
+
+    Bump jdiff stable to 0.20.1
+
+commit f8e6f5c017e79223934e3333ad96d84dbbc0fcbb
+Author: Chad Metcalf <chad@cloudera.com>
+Date:   Fri Oct 16 14:07:22 2009 -0700
+
+    Need to pass in FULL_VERSION
+
+commit 3d64e801bd9397dba27358f34e74ae5ded9122d1
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Wed Oct 14 16:15:45 2009 -0700
+
+    MAPREDUCE-999. Improve Sqoop test speed and refactor tests
+
+commit df8cd1351848eef56455f3116f3970923e1426c3
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Fri Oct 9 17:52:10 2009 -0700
+
+    MAPREDUCE-1089. Fix bug in Fair Scheduler where preemption would throw a NPE when facing tasks in "scheduled but not running" status
+
+commit 1a7b494d426f4a72329ab53d57dc67ecc76ca717
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Wed Oct 7 15:33:37 2009 -0700
+
+    MAPREDUCE-551: Add preemption to the fair scheduler
+    
+    This fixes an error in the previous backport where the
+    EagerTaskInitializationListener wasn't properly passed the
+    TaskTrackerManager before starting.
+
+commit 9f74c6700adcc8b5749e1c6e7bca7fba70f24c86
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Wed Oct 7 00:36:26 2009 -0700
+
+    MAPREDUCE-1070. Fix FairSchedulerServlet deadlock possibility.
+
+commit 35a5d7541e0bb46cdb35818a25f538ee4d496070
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Sun Oct 4 09:54:59 2009 -0700
+
+    Fix hadoop wrapper to properly pass through multiword quoted arguments
+
+commit 9d8d1cb216d76b5ec72a1c0df195839441603df9
+Author: Matt Massie <matt@cloudera.com>
+Date:   Fri Sep 25 15:02:56 2009 -0700
+
+    Sqoop documentation is now part of the generated tarball. Updated the install script to reflect that change.
+
+commit 220d1a70152b6526ded7b2843f88c63776bd6251
+Author: Matt Massie <matt@cloudera.com>
+Date:   Fri Sep 25 13:55:19 2009 -0700
+
+    Generate the sqoop documentation and ensure that it's in the release tarball
+
+commit a29a2635b33e0b9ae03cdd089227d538ef2c8672
+Author: Chad Metcalf <chad@cloudera.com>
+Date:   Thu Sep 24 16:07:18 2009 -0700
+
+    More changes to get debs building correctly
+
+commit b29653bb4757430033d5c97187df1903c1003d69
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Thu Sep 24 14:54:48 2009 -0700
+
+    Reformatted Sqoop manpage asciidoc for CDH build process
+
+commit c955b2beda0ab1135c41bf26db302a94bd583fe9
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Thu Sep 24 13:55:35 2009 -0700
+
+    Only rerun libtoolize if version 2.2 is installed
+
+commit 04a3f3d025b99184621910e2fc948ca3b200bfd5
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Tue Sep 22 16:04:33 2009 -0700
+
+    HADOOP-6279. Add JVM memory usage to JvmMetrics
+
+commit 788443436f440255eb2d472a36d743511de630e5
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Sun Sep 20 21:28:06 2009 -0700
+
+    HADOOP-6269. Fix synchronization on Configuration.class to avoid a possible deadlock
+
+commit a367eec549f4a76ff042ac0b3a97684cda038c63
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Tue Sep 22 22:19:02 2009 -0700
+
+    Recreate c++ configure files during build if we have the right build dependencies
+
+commit a07c1fce55a0581bc9012e4b1bd5ed67c33bdf5e
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Tue Sep 22 20:06:40 2009 -0700
+
+    Revert "MAPREDUCE-551: Add preemption to the fair scheduler"
+    
+    This reverts commit 0e260191bd72e38361568b846b659933c5bcb6db.
+    
+    This patch as applied was found to be unstable and cause job submission failure.
+    Will revisit and reapply after further testing.
+
+commit 66c65846c9017ccda6a154c755019b4bb972e3d8
+Author: Chad Metcalf <chad@cloudera.com>
+Date:   Tue Sep 22 12:51:09 2009 -0700
+
+    Package sqoop docs w/o requiring asciidoc.
+
+commit 91b16081c4e375c1f897930036553a42c2f2e949
+Author: Chad Metcalf <chad@cloudera.com>
+Date:   Tue Sep 22 11:23:43 2009 -0700
+
+    Revert "Package sqoop docs."
+    
+    This reverts commit 34a58c0e9727dd7af8e7f144709a1b234b63f142.
+
+commit 7bdbb68d5cd0dc411fbf6163817d3bd3b3589191
+Author: Chad Metcalf <chad@cloudera.com>
+Date:   Wed Sep 16 15:54:13 2009 -0700
+
+    HADOOP-5891: If dfs.http.address is default, SecondaryNameNode can't find NameNode
+
+commit d9e9589506f8856fcb607cdf0465bad22f48a267
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Mon Jul 20 13:07:43 2009 -0700
+
+    HDFS-127: DFSClient block read failures cause open DFSInputStream to become unusable
+    
+    HADOOP-4681: Also referenced
+    
+    This as-yet-uncommitted patch is recommended by HBase people.
+    Applied patch "4681.patch" attached to the JIRA on 2008-11-18.
+
+commit 14fd272700ba3f3cf254c015f3eb0ecd795604e2
+Author: Chad Metcalf <chad@cloudera.com>
+Date:   Thu Sep 10 14:44:12 2009 -0700
+
+    HADOOP-4655. New method FileSystem.newInstance() that always returns
+    a newly allocated FileSystem object. (dhruba)
+    
+    git-svn-id: https://svn.apache.org/repos/asf/hadoop/core/trunk@756152 13f79535-47bb-0310-9956-ffa450edef68
+
+commit 9b82cd7ad13c852f5d5837e89ed0084f7353a78a
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Wed Sep 9 23:30:31 2009 -0700
+
+    MAPREDUCE-967. TaskTrackers do not fully unjar job.jar
+
+commit ca4d967a798d50e46a5749f607dfcef2cef89b9d
+Author: Chad Metcalf <chad@cloudera.com>
+Date:   Mon Sep 14 12:03:04 2009 -0700
+
+    MAPREDUCE-968: NPE in distcp encountered when placing _logs directory on
+    S3FileSystem (Chad Metcalf for Aaron Kimball)
+
+commit f4248e0caad9ca6acf99058d6ace31ba5f3281d9
+Author: Chad Metcalf <chad@cloudera.com>
+Date:   Tue Sep 15 22:21:42 2009 -0700
+
+    HADOOP-6133: ReflectionUtils performance regression
+
+commit 78be540d795d25b86973d6074c37873734c7ac6d
+Author: Chad Metcalf <chad@cloudera.com>
+Date:   Tue Sep 15 22:18:24 2009 -0700
+
+    HADOOP-6231:  Allow caching of filesystem instances to be disabled on a per-instance basis
+
+commit 9849cf6a91393ad0e2228a4a329d1f76c3e581c0
+Author: Chad Metcalf <chad@cloudera.com>
+Date:   Wed Sep 16 10:12:05 2009 -0700
+
+    HADOOP-6097: Multiple bugs w/ Hadoop archives
+
+commit 5c3e38f72cb742de4f81067d4239911c9f6f4fb5
+Author: Chad Metcalf <chad@cloudera.com>
+Date:   Tue Sep 15 22:29:50 2009 -0700
+
+    HADOOP-5981: HADOOP-2838 doesnt work as expected
+
+commit 5a2c144f1a8f85c37f3a39a41d70de9f6b307a2c
+Author: Chad Metcalf <chad@cloudera.com>
+Date:   Tue Sep 15 22:09:57 2009 -0700
+
+    HADOOP-2838: Add HADOOP_LIBRARY_PATH config setting so Hadoop will include external directories for jni
+
+commit 0f6db246d4ecec3428b9c3b06e8e625ef273d471
+Author: Chad Metcalf <chad@cloudera.com>
+Date:   Tue Sep 15 18:15:17 2009 -0700
+
+    MAPREDUCE-814: Move completed Job history files to HDFS
+
+commit 2d6bb7c55e33c09b4e89a47d0fae02d937d56e61
+Author: Chad Metcalf <chad@cloudera.com>
+Date:   Tue Sep 15 17:59:39 2009 -0700
+
+    MAPREDUCE-693: Conf files not moved to done subdirectory after JT restart
+
+commit 1234649f462f677a0bb0454cf5a4caa5ac3e04c0
+Author: Chad Metcalf <chad@cloudera.com>
+Date:   Tue Sep 15 17:54:11 2009 -0700
+
+    MAPREDUCE-683: TestJobTrackerRestart fails with Map task completion events ordering mismatch
+
+commit d2273ab392265bff99cf53ae1242f8b9548a4bc6
+Author: Chad Metcalf <chad@cloudera.com>
+Date:   Tue Sep 15 17:52:19 2009 -0700
+
+    MAPREDUCE-416: Move the completed jobs' history files to a DONE subdirectory inside the configured history directory
+
+commit 9a4bdaa019e0ebebe399341e662b2f4f01fdd448
+Author: Chad Metcalf <chad@cloudera.com>
+Date:   Tue Sep 15 17:45:49 2009 -0700
+
+    HADOOP-5733: Add map/reduce slot capacity and lost map/reduce slot capacity to JobTracker metrics
+
+commit 87782238f5d367b3d6403949e3d517eafb8b096b
+Author: Chad Metcalf <chad@cloudera.com>
+Date:   Tue Sep 15 17:44:04 2009 -0700
+
+    HADOOP-5738: Split waiting tasks field in JobTracker metrics to individual tasks
+
+commit 8a576eb8207d0de79d3bf69354dd3a9bda417d14
+Author: Chad Metcalf <chad@cloudera.com>
+Date:   Tue Sep 15 17:26:37 2009 -0700
+
+    HADOOP-5442: The job history display needs to be paged
+
+commit ab167413303ac6e306083174e98fa62e471962d5
+Author: Chad Metcalf <chad@cloudera.com>
+Date:   Tue Sep 15 17:18:54 2009 -0700
+
+    HADOOP-4842: Streaming combiner should allow command, not just JavaClass
+
+commit 402e34faf0202092b65f944df3ff3e104fdd9d39
+Author: Philip Zeyliger <philip@cloudera.com>
+Date:   Tue Sep 15 01:19:54 2009 -0700
+
+    MAPREDUCE-987 (nee HDFS-621). Add ability to start MiniClusters from the command line
+
+commit 8284c1317062a166b3e54668f07fdf9d1ac7fd8c
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Tue Sep 15 01:19:54 2009 -0700
+
+    HADOOP-6267. Make build-contrib.xml reference relative paths using a dirname property
+    
+    This allows contrib projects to be built out-of-tree
+
+commit e55f8563ece9296640e82e7e4aaf779d74054474
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Mon Sep 14 23:57:33 2009 -0700
+
+    HDFS-528: add ability for safemode to wait until datanodes have registered
+
+commit 01a80cf127504afa923eb262eeaae04a6fbc9e5e
+Author: Konstantin Shvachko <shv@apache.org>
+Date:   Wed Dec 31 07:05:11 2008 +0000
+
+    HADOOP-4936. Improvements to TestSafeMode. Contributed by Konstantin Shvachko.
+    
+    git-svn-id: https://svn.apache.org/repos/asf/hadoop/core/trunk@730331 13f79535-47bb-0310-9956-ffa450edef68
+
+commit a0a976cee9f07f2af8cf182a72b196a2bf25973e
+Author: Tsz-wo Sze <szetszwo@apache.org>
+Date:   Sat Apr 18 00:03:28 2009 +0000
+
+    HADOOP-5650. Fix safemode messages in the Namenode log.  Contributed by Suresh Srinivas
+    
+    git-svn-id: https://svn.apache.org/repos/asf/hadoop/core/trunk@766182 13f79535-47bb-0310-9956-ffa450edef68
+
+commit 63a46ad91b2088fbc814a63a06d196d12654b334
+Author: Philip Zeyliger <philip@cloudera.com>
+Date:   Tue Jul 28 15:28:18 2009 -0700
+
+    HADOOP-4675. Current Ganglia metrics implementation is incompatible with Ganglia 3.1
+    
+    Patched using
+    https://issues.apache.org/jira/secure/attachment/12407207/HADOOP-4675-v7.patch
+
+commit 59b78a17699646b273176b6cc6115620cd2e74a1
+Author: Henry Robinson <henry@cloudera.com>
+Date:   Wed Jul 22 14:49:12 2009 +0100
+
+    HADOOP-6269. Fix missing synchronization around Configuration.defaultResources
+
+commit 3667d72554e3423f901c5da43558b1717a7c87df
+Author: Henry Robinson <henry@cloudera.com>
+Date:   Thu Jul 9 09:33:30 2009 +0100
+
+    Make some JT methods and classes public for use from within contrib plugins
+
+commit ffe137becc524954183b5f68b385f9aaf58927a7
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Mon Sep 14 23:29:06 2009 -0700
+
+    MAPREDUCE-461 (incomplete on trunk). Add plugin support to JobTracker
+    
+    (Relies on HADOOP-5640)
+
+commit a11703e4bc485454840d17ade209f4bc851617d7
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Wed Apr 15 17:12:19 2009 -0700
+
+    HADOOP-5640: Add dispatch mechanism for services to notify plugins of important events.
+
+commit 31fa6f8fc7b70354a18626159f5bc16890e26639
+Author: Dhruba Borthakur <dhruba@apache.org>
+Date:   Fri Apr 3 05:44:52 2009 +0000
+
+    HADOOP-5257. HDFS servers may start and stop external components through a plugin interface. (Carlos Valiente via dhruba)
+    
+    git-svn-id: https://svn.apache.org/repos/asf/hadoop/core/trunk@761530 13f79535-47bb-0310-9956-ffa450edef68
+
+commit f3094dc85433914fa61e93718ea645aaf1eea4d8
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Thu Sep 17 13:14:19 2009 -0700
+
+    MAPREDUCE-971: distcp does not always remove distcp.tmp.dir
+
+commit 34a58c0e9727dd7af8e7f144709a1b234b63f142
+Author: Chad Metcalf <chad@cloudera.com>
+Date:   Tue Sep 15 16:24:19 2009 -0700
+
+    Package sqoop docs.
+
+commit 424cd9d505716efdba61cc4e91471a2718a910ad
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Tue Sep 15 15:13:23 2009 -0700
+
+    MAPREDUCE-923: Sqoop's ORM uses URLDecoder on a file, which replaces plus signs in a jar file name with spaces
+
+commit 68596d06c2821caf802e8debb59b173e0e896e29
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Tue Sep 15 14:24:53 2009 -0700
+
+    Sqoop asciidoc syntax error
+
+commit ac0753f008e774d9271c5881329b5e18f37e7635
+Author: Chad Metcalf <chad@cloudera.com>
+Date:   Mon Sep 14 20:11:00 2009 -0700
+
+    HADOOP-5450: Add support for application-specific typecodes to typed bytes
+
+commit b64d05788bd192e54d81e47d6c049d9e4eba4b75
+Author: Chad Metcalf <chad@cloudera.com>
+Date:   Mon Sep 14 20:08:23 2009 -0700
+
+    HADOOP-1722: Make streaming to handle non-utf8 byte array
+
+commit 59dcf878187a3fa1cbc64dba7ddb49624861a6b4
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Tue Sep 15 11:05:32 2009 -0700
+
+    More Sqoop documentation updates
+
+commit 28778e6442ac75d429ecf364e845dbfa65fc8f18
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Mon Sep 14 19:54:21 2009 -0700
+
+    MAPREDUCE-840: DBInputFormat leaves open transaction
+    (reapplied after HADOOP-4687)
+
+commit a7b776d5209cbf031ad9a39571f4a989601371e2
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Mon Sep 14 18:05:09 2009 -0700
+
+    MAPREDUCE-906: Updated Sqoop documentation
+
+commit 9bd36193812f8b9fba44c500720259358af299b4
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Mon Sep 14 18:02:16 2009 -0700
+
+    MAPREDUCE-907: Sqoop should use more intelligent splits
+
+commit 272ca62c4ebc90a58078fad0811aadeae503ef21
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Mon Sep 14 18:00:52 2009 -0700
+
+    MAPREDUCE-885: More efficient SQL queries for DBInputFormat
+
+commit b0342f52ebe13d3f887c7a117d29b0ad5c007be7
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Mon Sep 14 17:59:53 2009 -0700
+
+    MAPREDUCE-938: Postgresql support for Sqoop
+
+commit d550e91e79aeee4b75522f8244b40e77625458d5
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Mon Sep 14 17:58:46 2009 -0700
+
+    MAPREDUCE-876: Sqoop import of large tables can time out
+
+commit e7032e9a71a76966332534d33316de9f3fec7839
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Mon Sep 14 17:55:37 2009 -0700
+
+    MAPREDUCE-918: Test hsqldb server should be memory-only
+
+commit 1e4cb415dbe1631735e25479afa16456ff86d30f
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Mon Sep 14 17:54:37 2009 -0700
+
+    MAPREDUCE-875: Make DBRecordReader execute queries lazily
+
+commit fe2b40eba88164fb85e84180ebf92e6b8f85defd
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Mon Sep 14 17:54:04 2009 -0700
+
+    MAPREDUCE-825: JobClient completion poll interval of 5s causes slow tests in local mode
+
+commit c1d48d5d45d2262cd410d240b056ddc1a31a6880
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Mon Sep 14 17:48:35 2009 -0700
+
+    MAPREDUCE-750: Extensible ConnManager factory API
+
+commit 5f1c3f457eac0ac3185340e02106a79bcb3c9b26
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Mon Sep 14 17:47:31 2009 -0700
+
+    MAPREDUCE-749: Make Sqoop unit tests more Hudson-friendly
+
+commit 6f476cfac44d6539ecdfefd5d9c6e7805328487b
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Mon Sep 14 17:42:18 2009 -0700
+
+    MAPREDUCE-792: Fix unchecked warnings in DBInputFormat
+
+commit 1561cf1488502b4a8f845ec177db8ab4365ceff2
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Mon Sep 14 17:40:22 2009 -0700
+
+    MAPREDUCE-716: org.apache.hadoop.mapred.lib.db.DBInputformat not working with oracle
+    (Applied "trunk" version of the patch after incorporating HADOOP-4687's move of DBIF)
+
+commit 89e9d0db914fdcd3dd3459e986796361e53ed549
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Mon Sep 14 17:39:13 2009 -0700
+
+    MAPREDUCE-910: MRUnit should support counters
+
+commit 7a34c6b3b662dcd529a864c0540ce111c5b8bd43
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Mon Sep 14 17:34:47 2009 -0700
+
+    MAPREDUCE-798: MRUnit should be able to test a succession of MapReduce passes
+
+commit 97c5866d78b016e8db06a89baf77eb443ac5e063
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Mon Sep 14 17:33:34 2009 -0700
+
+    MAPREDUCE-800: MRUnit should support the new API
+
+commit 68794a3e70ca2e88833a4e02ccb6469b5a66e118
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Mon Sep 14 17:31:31 2009 -0700
+
+    MAPREDUCE-799: Some of MRUnit's self-tests were not being run
+
+commit 819b7876a020c451b5236ad6ad7d78a1ae5f38bf
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Mon Sep 14 17:30:33 2009 -0700
+
+    MAPREDUCE-797: MRUnit MapReduceDriver should support combiners
+
+commit 30c44373abe6c0f0ce83f601e9b409858165e825
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Mon Sep 14 17:28:37 2009 -0700
+
+    Use 0.21-branch versions of DBInputFormat + shim from HADOOP-4687
+
+commit 0e260191bd72e38361568b846b659933c5bcb6db
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Mon Sep 14 17:24:29 2009 -0700
+
+    MAPREDUCE-551: Add preemption to the fair scheduler
+
+commit 951c5910345474848c25b3d372b2c34480d728f2
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Mon Sep 14 16:51:19 2009 -0700
+
+    HADOOP-5170: Set max map/reduce tasks on a per-job basis, either per-node or cluster-wide
+
+commit 4064b191c14aa98deca22155531db1830867f1c2
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Wed Aug 26 11:38:09 2009 -0700
+
+    HADOOP-6166. Further improve the performance of the pure-Java CRC32 implementation. Contributed by Tsz Wo (Nicholas), SZE
+
+commit fd77206d56ba4fe544a48c6c2f31682b430bf4dd
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Wed Aug 26 11:36:23 2009 -0700
+
+    MAPREDUCE-782. Use PureJavaCrc32 in SpillRecord (Todd Lipcon via szetszwo)
+
+commit 8bf4c9f9c6b1543161b9db6be443e7a131c8d22d
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Wed Aug 26 11:34:51 2009 -0700
+
+    HDFS-496. Use PureJavaCrc32 in HDFS (Todd Lipcon via szetszwo)
+
+commit 99d8dfc7f401d8f9c2469b67e56240a33a0152a9
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Wed Aug 26 11:32:55 2009 -0700
+
+    HADOOP-6148. Implement a fast, pure Java CRC32 calculator which outperforms java.util.zip.CRC32. Contributed by Todd Lipcon and Scott Carey
+
+commit a65ce17e5bfe3376d6c66cc72eba2adca7f14dee
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Thu Aug 13 16:20:41 2009 -0700
+
+    Updated Sqoop documentation for MAPREDUCE-816, MAPREDUCE-789
+
+commit d17d51722cbefebf2ae917d4e48218ee87bee185
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Thu Aug 13 15:44:36 2009 -0700
+
+    MAPREDUCE-789: Oracle support for Sqoop
+
+commit 4de0b29c1996d1bdd64cbb3e66ba38091ab519d4
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Thu Aug 13 15:40:16 2009 -0700
+
+    MAPREDUCE-840: DBInputFormat leaves open transaction
+
+commit 9e87cf9cee2dc8c2f827df77f6ca186045f1f5c3
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Thu Aug 13 15:38:21 2009 -0700
+
+    MAPREDUCE-816: Rename "local" mysql import to "direct"
+
+commit bb7781980a000dcda2efc8e863b93fe1f31d46f2
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Thu Aug 13 15:37:25 2009 -0700
+
+    MAPREDUCE-716: org.apache.hadoop.mapred.lib.db.DBInputformat not working with oracle
+    
+    Applied MAPREDUCE-716.4.branch20.patch
+
+commit 00bccbbe823578bd483dc67bca22838bea79ddcd
+Author: Philip Zeyliger <philip@cloudera.com>
+Date:   Mon Jun 15 18:37:24 2009 -0700
+
+    Example hadoop-metrics.properties works with /metrics (HADOOP-5469).
+
+commit 27128c705078137d708949076421787cbd63b029
+Author: Philip Zeyliger <philip@cloudera.com>
+Date:   Mon Jun 15 18:03:03 2009 -0700
+
+    HADOOP-5469. Add /metrics servlet to daemons, providing metrics over HTTP as either text or JSON. Contributed by Philip Zeyliger.
+    
+    git-svn-id: https://svn.apache.org/repos/asf/hadoop/core/trunk@762987 13f79535-47bb-0310-9956-ffa450edef68
+
+commit 2302d90cb656757447da9671abe63a0f0164eb57
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Mon Aug 3 12:26:26 2009 -0700
+
+    Added Sqoop documentation to installation script
+
+commit 3cc8a9ca1f70f598d84e38b5620db642d121659b
+Author: Matt Massie <matt@cloudera.com>
+Date:   Fri Jul 31 19:09:46 2009 -0700
+
+    Fix the hadoop/sqoop wrapper scripts
+
+commit 316a9417cba29d34f38ee71009dec219a3dc4b5f
+Author: Matt Massie <matt@cloudera.com>
+Date:   Fri Jul 31 18:45:00 2009 -0700
+
+    Fix a bug in the hadoop/sqoop wrapper generation
+
+commit eddd4b80f856fe92195cab9d5c532e2af9e9c482
+Author: Matt Massie <matt@cloudera.com>
+Date:   Fri Jul 31 17:44:43 2009 -0700
+
+    Update the install hadoop script
+
+commit 02e575801414c8fdddbc9a6678bfa493a1b42e0b
+Author: Matt Massie <matt@cloudera.com>
+Date:   Fri Jul 31 17:39:50 2009 -0700
+
+    Rename the hadoop man page to be hadoop-0.20
+
+commit 081a9ef0a427ad15f08f0bea1da734ecfbaef085
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Mon Jul 20 18:10:24 2009 -0700
+
+    HADOOP-5745. Allow setting the default value of maxRunningJobs for all pools.
+    
+    Contributed by Dhruba Borthakur.
+    
+    git-svn-id: https://svn.apache.org/repos/asf/hadoop/core/trunk@771570 13f79535-47bb-0310-9956-ffa450edef68
+
+commit d8ccfe192bb2482e6e3e7c21c2ffadd4c6895ee0
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Sat Jul 25 16:52:32 2009 -0700
+
+    Update Sqoop documentation with user guide and manpage.
+
+commit 9e8ee41f9157c5603198f1bfec6efcd2b3abf27b
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Thu Jul 23 16:45:29 2009 -0700
+
+    Added MySQL Connector/J library for Sqoop.
+
+commit 3b81740964543fa0504e44dbbe04d0cc11fdfe56
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Thu Jul 23 16:25:04 2009 -0700
+
+    MAPREDUCE-705: User-configurable quote and delimiter characters for Sqoop records and record reparsing
+
+commit 8a7e4f7fa90de2caa9023f27ae0dbf6d79e1915c
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Thu Jul 23 16:24:06 2009 -0700
+
+    MAPREDUCE-710: Sqoop should read and transmit passwords in a more secure manner
+
+commit 05fc9b0e6a934a0e8f569c670cb0d266a02b59a4
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Thu Jul 23 16:23:01 2009 -0700
+
+    MAPREDUCE-713: Sqoop has some superfluous imports
+
+commit 35536eb4bdc90a0575d94359e6ba6554dca7ccbb
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Thu Jul 23 16:21:51 2009 -0700
+
+    MAPREDUCE-685: Sqoop will fail with OutOfMemory on large tables using mysql
+
+commit 56c76edabf47002cbc739a26618720b191a7a258
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Thu Jul 23 16:20:39 2009 -0700
+
+    MAPREDUCE-674: Sqoop should allow a "where" clause to avoid having to export entire tables
+
+commit d92082012d7fa3a98101bc909fc32643ac3417ed
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Thu Jul 23 16:18:51 2009 -0700
+
+    MAPREDUCE-675: Sqoop should allow user-defined class and package names
+
+commit a71a875925ce7f4a355262c911a5913a5cb72843
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Thu Jul 23 16:16:30 2009 -0700
+
+    MAPREDUCE-703: Sqoop requires dependency on hsqldb in ivy
+
+commit 0fe64cbc39a58f47b9facf613b9e11cd6f5d8ebe
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Thu Jul 23 16:12:20 2009 -0700
+
+    MAPREDUCE-692: Make Hudson run Sqoop unit tests
+
+commit 3d62ea0666884b7afeeeacd47ec9f5806c1698e6
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Thu Jul 23 16:10:59 2009 -0700
+
+    HADOOP-5968: Sqoop should only print a warning about mysql import speed once
+
+commit b63a6286be32b54335c292ac97959f8036bf738b
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Thu Jul 23 16:10:21 2009 -0700
+
+    HADOOP-5967: Sqoop should only use a single map task
+
+commit dcfc5ac78db7e75193b2d82b2e9441dabd08cced
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Thu Jul 23 16:09:30 2009 -0700
+
+    HADOOP-5887: Sqoop should create tables in Hive metastore after importing to HDFS
+
+commit 3c65058ccc8e5ddc78c9438ddec7b268349571a4
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Tue Jul 21 16:18:18 2009 -0700
+
+    Address issue where docs were not properly copied through to release tarball
+    
+    This was caused by some cleanup in build.xml early on in the CDH 0.20
+    branch
+
+commit b535db08cea3e642aec046d146e528767e1187f6
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Tue Jul 21 15:42:23 2009 -0700
+
+    Decrease build time by only rebuilding the native code for each platform
+
+commit 4f9b46e691c8f9dca8256064131d1f0f8088df0e
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Tue Jul 21 14:36:22 2009 -0700
+
+    Run jdiff against vanilla Hadoop during Cloudera release build
+
+commit 5d77a82370260b78d6c9e5bfdb542bee13477301
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Tue Jul 21 17:43:45 2009 -0700
+
+    MAPREDUCE-415: JobControl.Job always has an unassigned name
+
+commit 104f9abe67d1e35816129003413d46d5df1222f2
+Author: Thomas White <tomwhite@apache.org>
+Date:   Thu May 28 16:43:30 2009 +0000
+
+    HADOOP-5805. problem using top level s3 buckets as input/output directories. Contributed by Ian Nowland.
+    
+    git-svn-id: https://svn.apache.org/repos/asf/hadoop/core/trunk@779656 13f79535-47bb-0310-9956-ffa450edef68
+
+commit 7108ee8e0ae2ea4cbca67a6226314556486980ff
+Author: Thomas White <tomwhite@apache.org>
+Date:   Fri May 1 13:43:10 2009 +0000
+
+    HADOOP-5656. Counter for S3N Read Bytes does not work. Contributed by Ian Nowland.
+    
+    git-svn-id: https://svn.apache.org/repos/asf/hadoop/core/trunk@770681 13f79535-47bb-0310-9956-ffa450edef68
+
+commit ba62b9ccb9c4914a76d6acb244722c21b554b733
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Thu Jul 16 16:21:59 2009 -0700
+
+    HADOOP-5613. Change S3Exception to checked exception. Contributed by Andrew Hitchcock.
+    
+    git-svn-id: https://svn.apache.org/repos/asf/hadoop/core/trunk@770685 13f79535-47bb-0310-9956-ffa450edef68
+
+commit 12e86e55d8ee04de28e9e07aa91701cc4a04e56b
+Author: Konstantin Shvachko <shv@apache.org>
+Date:   Thu Apr 2 20:08:21 2009 +0000
+
+    HADOOP-5528. Add a configurable hash partitioner operating on ranges of BinaryComparable keys. Contributed by Klaas Bosteels.
+    
+    git-svn-id: https://svn.apache.org/repos/asf/hadoop/core/trunk@761407 13f79535-47bb-0310-9956-ffa450edef68
+
+commit 61636a356881670554cc3d1b9b9748a68347cad5
+Author: Douglass Cutting <cutting@apache.org>
+Date:   Mon Feb 23 22:30:34 2009 +0000
+
+    HADOOP-5240. Skip re-building javadoc when it is already up-to-date. Contributed by Aaron Kimball.
+    
+    git-svn-id: https://svn.apache.org/repos/asf/hadoop/core/trunk@747169 13f79535-47bb-0310-9956-ffa450edef68
+
+commit 7d245d8f29151c8c802ba15c078acb3a7f56bbf0
+Author: Thomas White <tomwhite@apache.org>
+Date:   Wed May 27 11:00:11 2009 +0000
+
+    HADOOP-5175. Don't unpack libjars on classpath. Contributed by Todd Lipcon.
+    
+    git-svn-id: https://svn.apache.org/repos/asf/hadoop/core/trunk@779106 13f79535-47bb-0310-9956-ffa450edef68
+
+commit 3a4cdcc07b94c1cb26949e626e52f95674d90a59
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Thu Jul 16 15:15:18 2009 -0700
+
+    Fix scribe-log4j's ivy.xml to properly get log4j on the compile classpath
+
+commit 4874fe48d0f837a326e39958a817871d5b31be4c
+Author: Thomas White <tomwhite@apache.org>
+Date:   Thu May 21 15:22:47 2009 +0000
+
+    HADOOP-4829. Allow FileSystem shutdown hook to be disabled. Contributed by Todd Lipcon.
+    
+    git-svn-id: https://svn.apache.org/repos/asf/hadoop/core/trunk@777152 13f79535-47bb-0310-9956-ffa450edef68
+
+commit e39c01ccc1658be2ccbd17bfed5a5bf4b76951e1
+Author: Devaraj Das <ddas@apache.org>
+Date:   Thu Feb 5 05:35:09 2009 +0000
+
+    HADOOP-3327. Improves handling of READ_TIMEOUT during map output copying. Contributed by Amareshwari Sriramadasu.
+    
+    git-svn-id: https://svn.apache.org/repos/asf/hadoop/core/trunk@741009 13f79535-47bb-0310-9956-ffa450edef68
+
+commit 4036ae240690d38dbeac52d7094fa078ff9b2160
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Wed Jul 15 10:40:47 2009 -0700
+
+    MAPREDUCE-680. Reuse of Writable objects is improperly handled by MRUnit.
+
+commit efa77a3d1fce955acdca4978014de1eb950d1abd
+Author: Aaron Kimball <aaron@cloudera.com>
+Date:   Wed Jul 15 10:40:15 2009 -0700
+
+    HADOOP-5518. MRUnit test library.
+
+commit 8da767bb6faefe26fcbad7d28b3ead8ede80a457
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Tue Jun 2 20:55:17 2009 -0700
+
+    Add sqoop wrapper to bin/
+
+commit 860bf603c83792808365b675a8386be1e0c6afea
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Tue Jun 2 20:06:18 2009 -0700
+
+    HADOOP-5844: Use mysqldump when connecting to local mysql instance in Sqoop
+    
+    Patch: mysqldump.patch 2009-5-14
+
+commit 950f96b7e4e393e842cbc3648c2012e24e624893
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Tue Jun 2 20:05:10 2009 -0700
+
+    HADOOP-5815: Sqoop: A database import tool for Hadoop
+    
+    Patch added: HADOOP-5815.2.patch 2009-05-13 version
+
+commit c6884be8bded19d36ffa01163473abdac877c66d
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Mon Jul 6 19:36:11 2009 -0700
+
+    MAPREDUCE-714: Fix JobConf.findContainingJars to work with jars with + in the name
+
+commit 4f40345e350694c1dc519fab5cf8f28ed17628fe
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Mon May 11 14:35:00 2009 -0700
+
+    Add libs
+
+commit 8284e87eea9ca99a9f0a1a43ba84ed6efd521d5e
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Mon May 11 14:32:38 2009 -0700
+
+    scribe_hadoop_trunk.patch
+    
+    Also, add empty ivy infrastructure for scribe-log4j
+
+commit 603998f595bab785738c1b220a419e606d88c3bf
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Wed Jul 15 15:30:14 2009 -0700
+
+    Use cloudera's versioning info from cloudera.hash in saveVersion.sh
+    
+    This should make the "hadoop version" output far more useful for
+    determing exactly what code is running. The cloudera.hash property is
+    set by cloudera/build.properties which is generated during the build
+    process.
+
+commit 57b892f99b4c22169f13f12013ad679ad596f3ca
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Tue Jun 30 11:12:55 2009 -0700
+
+    Move saveVersion.sh in build.xml to ensure build
+    
+    This error is due to ant 1.7.1 not compiling package-info.java if the
+    timestamp of the output class directory is newer than the package-info
+    file itself. Since other compiles were happening after package-info.java
+    was generated, the build dir was newer and compilation was being
+    skipped.
+    
+    Fixes CLOUDERA-436 (hadoop version printing rUNKNOWN)
+    
+    Move cloudera hooks inside the package task of build.xml
+    
+    Fixes an issue where the fair scheduler jar was not built before the
+    hooks were run, and therefore was not included in the target lib/
+    directory.
+
+commit e19297590d946e29188d0b242c119083508e036e
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Wed Jul 15 14:23:13 2009 -0700
+
+    New versions of cloudera scripts
+
+commit 7b2a0502fb15815ead220855b53a21ba41a82db3
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Fri Jun 5 17:21:14 2009 -0700
+
+    Change paths to point to hadoop-0.20 where necessary
+
+commit db837e1302d76b505767715606484b446cac1e7d
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Fri Jun 5 16:47:56 2009 -0700
+
+    Add manpage to 20 repo
+
+commit f238378e945ca7d4c56cdd8e4b852a7d36599ddd
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Fri Jun 5 16:46:46 2009 -0700
+
+    Move install_hadoop.sh into hadoop repo
+
+commit 5f9f8cadd562459bb095c114389ea2c9e32fe77c
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Wed Jun 3 12:11:53 2009 -0700
+
+    Add example-confs directory for storing configuration of conf.pseudo
+
+commit d8aeb49e504965dc0296b385f2c340942ce159ab
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Tue Jun 2 21:12:45 2009 -0700
+
+    Replace hadoop-config.sh with Cloudera version
+
+commit d8b79d1efa26a48487d8d1e71215849068f8efdb
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Tue Jun 2 19:34:56 2009 -0700
+
+    Remove redundant code in build.xml between package and bin-package
+
+commit 398b2e9c22e3fa20fcb63d17af31d100e7f46d31
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Mon May 11 14:32:42 2009 -0700
+
+    HADOOP-5611-Add-some-missing-includes-to-c-code-t.patch
+
+commit aea0e88dab50448ea764693beda8d4d01b9b7731
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Tue Jun 2 17:57:09 2009 -0700
+
+    Hook build.xml to enable contrib modules
+
+commit 22e0fb039e00f7a7f714678c2562aadfe7326d0a
+Author: Todd Lipcon <todd@cloudera.com>
+Date:   Tue Jun 2 14:50:56 2009 -0700
+
+    HADOOP-5612: Add chmod rules to build.xml

@@ -1,0 +1,33 @@
+From 7bdbb68d5cd0dc411fbf6163817d3bd3b3589191 Mon Sep 17 00:00:00 2001
+From: Chad Metcalf <chad@cloudera.com>
+Date: Wed, 16 Sep 2009 15:54:13 -0700
+Subject: [PATCH] HADOOP-5891: If dfs.http.address is default, SecondaryNameNode can't find NameNode
+
+---
+ .../hdfs/server/namenode/SecondaryNameNode.java    |    9 ++++++++-
+ 1 files changed, 8 insertions(+), 1 deletions(-)
+
+diff --git a/src/hdfs/org/apache/hadoop/hdfs/server/namenode/SecondaryNameNode.java b/src/hdfs/org/apache/hadoop/hdfs/server/namenode/SecondaryNameNode.java
+index 1a93e64..f42f13a 100644
+--- a/src/hdfs/org/apache/hadoop/hdfs/server/namenode/SecondaryNameNode.java
++++ b/src/hdfs/org/apache/hadoop/hdfs/server/namenode/SecondaryNameNode.java
+@@ -288,8 +288,15 @@ public class SecondaryNameNode implements Runnable {
+     if (!"hdfs".equals(fsName.getScheme())) {
+       throw new IOException("This is not a DFS");
+     }
+-    return NetUtils.getServerAddress(conf, "dfs.info.bindAddress", 
++
++    String configuredAddress = NetUtils.getServerAddress(conf, "dfs.info.bindAddress", 
+                                      "dfs.info.port", "dfs.http.address");
++    InetSocketAddress sockAddr = NetUtils.createSocketAddr(configuredAddress);
++    if (sockAddr.getAddress().isAnyLocalAddress()) {
++      return fsName.getHost() + ":" + sockAddr.getPort();
++    } else {
++      return configuredAddress;
++    }
+   }
+ 
+   /**
+-- 
+1.6.0.4
+

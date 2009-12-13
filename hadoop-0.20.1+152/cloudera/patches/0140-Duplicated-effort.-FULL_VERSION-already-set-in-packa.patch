@@ -1,0 +1,27 @@
+From ac41af8a2c74e34b672f43b55a61ac2ebd76d1ff Mon Sep 17 00:00:00 2001
+From: Chad Metcalf <chad@cloudera.com>
+Date: Mon, 26 Oct 2009 11:39:07 -0700
+Subject: [PATCH] Duplicated effort. FULL_VERSION already set in package.mk
+ Revert "Need to pass in FULL_VERSION"
+
+This reverts commit f8e6f5c017e79223934e3333ad96d84dbbc0fcbb.
+---
+ cloudera/do-release-build |    2 --
+ 1 files changed, 0 insertions(+), 2 deletions(-)
+
+diff --git a/cloudera/do-release-build b/cloudera/do-release-build
+index 70c156b..459f275 100755
+--- a/cloudera/do-release-build
++++ b/cloudera/do-release-build
+@@ -5,8 +5,6 @@
+ 
+ set -e
+ 
+-FULL_VERSION=$1
+-
+ if [ $(uname -m) != "x86_64" ]; then
+   echo Release build should be done on a 64-bit box to generate 1>&2
+   echo both 64 and 32 bit native libraries. 1>&2
+-- 
+1.6.0.4
+

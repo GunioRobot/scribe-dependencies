@@ -1,0 +1,26 @@
+From a71a875925ce7f4a355262c911a5913a5cb72843 Mon Sep 17 00:00:00 2001
+From: Aaron Kimball <aaron@cloudera.com>
+Date: Thu, 23 Jul 2009 16:16:30 -0700
+Subject: [PATCH] MAPREDUCE-703: Sqoop requires dependency on hsqldb in ivy
+
+---
+ src/contrib/sqoop/ivy.xml |    4 ++++
+ 1 files changed, 4 insertions(+), 0 deletions(-)
+
+diff --git a/src/contrib/sqoop/ivy.xml b/src/contrib/sqoop/ivy.xml
+index cf58d6a..8fe13c4 100644
+--- a/src/contrib/sqoop/ivy.xml
++++ b/src/contrib/sqoop/ivy.xml
+@@ -56,5 +56,9 @@
+       name="log4j"
+       rev="${log4j.version}"
+       conf="common->master"/>
++    <dependency org="hsqldb"
++      name="hsqldb"
++      rev="${hsqldb.version}"
++      conf="common->default"/>
+     </dependencies>
+ </ivy-module>
+-- 
+1.6.0.4
+

@@ -1,0 +1,37 @@
+From 4f9b46e691c8f9dca8256064131d1f0f8088df0e Mon Sep 17 00:00:00 2001
+From: Todd Lipcon <todd@cloudera.com>
+Date: Tue, 21 Jul 2009 14:36:22 -0700
+Subject: [PATCH] Run jdiff against vanilla Hadoop during Cloudera release build
+
+---
+ cloudera/do-release-build |    9 ++++++++-
+ 1 files changed, 8 insertions(+), 1 deletions(-)
+
+diff --git a/cloudera/do-release-build b/cloudera/do-release-build
+index 6555e36..b064515 100755
+--- a/cloudera/do-release-build
++++ b/cloudera/do-release-build
+@@ -59,6 +59,13 @@ JAVA_HOME=$JAVA32_HOME \
+   -propertyfile cloudera/build.properties \
+   clean tar
+ 
++if [ -z "$SKIP_JDIFF" ]; then
++ant \
++  -Djdiff.stable=0.20.0 \
++  -Djdiff.build.dir=build/docs/jdiff-cloudera \
++  -propertyfile cloudera/build.properties api-report
++fi
++
+ JAVA_HOME=$JAVA64_HOME \
+   CFLAGS=-m64 \
+   CXXFLAGS=-m64 \
+@@ -69,4 +76,4 @@ JAVA_HOME=$JAVA64_HOME \
+   -Djava5.home=$JAVA5_HOME \
+   -Dforrest.home=$FORREST_HOME \
+   -propertyfile cloudera/build.properties \
+-  compile-core-native compile-c++ tar
+\ No newline at end of file
++  compile-core-native compile-c++ tar
+-- 
+1.6.0.4
+

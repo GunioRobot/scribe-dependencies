@@ -10,7 +10,7 @@ libevent:
 	[ -f /usr/include/event.h ] || (cd libevent-1.4.11-stable && ./configure && make && cd ..)
 
 boost:
-	cd boost_1_41_0 && ./bootstrap.sh && ./bjam -j4 filesystem
+	cd boost_1_41_0 && ./bootstrap.sh && ./bjam -j4
 
 lzo:
 	cd lzo-2.03 && ./configure && make

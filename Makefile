@@ -23,6 +23,6 @@ fb303: thrift
 	cd thrift-0.2.0/contrib/fb303 && ./bootstrap.sh ;  PY_PREFIX=$(PREFIX) ./configure --prefix=$(PREFIX) --with-boost=$(PREFIX) --with-thriftpath=$(PREFIX) && PY_PREFIX=$(PREFIX) make && PY_PREFIX=$(PREFIX) make install && cd ..
 
 hadoop:
-	cd hadoop-0.20.1+152/src/c++/libhdfs && JVM_ARCH=64 ac_cv_func_malloc_0_nonnull=yes sh configure --prefix=$(PREFIX) --with-java=$(shell dirname $(shell readlink -f $(shell which java)))/.. && make && make install && cd ..
+	cd hadoop-0.20.1+152/src/c++/libhdfs && JVM_ARCH=64 ac_cv_func_malloc_0_nonnull=yes sh configure --prefix=$(PREFIX) --with-java=$(shell dirname $(shell readlink -f $(shell which java)))/.. && make && make install && cp *.h $(PREFIX)/include && cd ..
 
 clean:

@@ -14,10 +14,10 @@ boost:
 	cd boost_1_41_0 && ./bootstrap.sh --prefix=$(PREFIX) --without-libraries=python && ./bjam -sNO_BZIP2=1 -j4 install && cd ..
 
 lzo:
-	cd lzo-2.03 && ./configure --prefix=$(PREFIX) && make && make install && cd ..
+	cd lzo-2.03 && ./configure --enable-shared --prefix=$(PREFIX) && make && make install && cd ..
 
 thrift: boost libevent
-	cd thrift-0.2.0 && ./configure --prefix=$(PREFIX) --with-boost=$(PREFIX) --without-ruby --without-perl --without-py --with-libevent=$(PREFIX) && make && make install && cd ..
+	cd thrift-0.2.0 && JAVA_PREFIX=$(PREFIX) ./configure --prefix=$(PREFIX) --with-boost=$(PREFIX) --without-ruby --without-perl --without-py --with-libevent=$(PREFIX) && JAVA_PREFIX=$(PREFIX) make && make install && cd ..
 
 fb303: thrift
 	cd thrift-0.2.0/contrib/fb303 && ./bootstrap.sh ;  PY_PREFIX=$(PREFIX) ./configure --prefix=$(PREFIX) --with-boost=$(PREFIX) --with-thriftpath=$(PREFIX) && PY_PREFIX=$(PREFIX) make && PY_PREFIX=$(PREFIX) make install && cd ..

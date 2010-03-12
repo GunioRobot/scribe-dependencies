@@ -22,6 +22,6 @@ fb303: thrift
 	cd thrift-0.2.0/contrib/fb303 && BOOST_ROOT=$(shell pwd)/boost_1_41_0 CPPFLAGS=-I$(shell pwd)/thrift-0.2.0/contrib/fb303/../../lib/cpp/src ./bootstrap.sh --with-thriftpath=$(shell pwd)/thrift-0.2.0/compiler/cpp && find . -name Makefile | xargs perl -pi -e 's/\$\(thrift_home\)\/bin/\$\(thrift_home\)/' && make
 
 hadoop:
-	cd hadoop-0.20.1+152/src/c++/libhdfs && sh configure --with-java=$(shell dirname $(shell which java)) && make
+	cd hadoop-0.20.1+152/src/c++/libhdfs && JVM_ARCH=64 ac_cv_func_malloc_0_nonnull=yes sh configure --with-java=$(shell dirname $(shell readlink -f $(shell which java)))/.. && make
 
 clean:
